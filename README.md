@@ -1,1 +1,1 @@
-## A PROJECT THAT EXPLAINS LIFO AND FIFO
+# a project that explains lifo and fifo

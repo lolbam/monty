@@ -1,29 +1,15 @@
 #ifndef MONTY_H
 #define MONTY_H
-
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <ctype.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <string.h>
-#include <unistd.h>
-#include <ctype.h>
 #include <fcntl.h>
-#include <stdarg.h>
 
-/**
-* struct value - holds value in global scope
-* @value: actual value
-*
-* Description: to allow me to access this value globally
-*/
-typedef struct value
-{
-	int value;
-} value_s;
-
-extern value_s variable;
-value_s variable;
+/* data structures */
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -42,7 +28,7 @@ typedef struct stack_s
 } stack_t;
 
 /**
- * struct instruction_s - opcode and its function
+ * struct instruction_s - opcoode and its function
  * @opcode: the opcode
  * @f: function to handle the opcode
  *
@@ -55,50 +41,29 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-/* opening file */
-char *file_open(char *file);
+/* opcodes related prototypes */
+void (*get_op_func(char *token1))(stack_t **stack, unsigned int line_number);
+void push(stack_t **h, unsigned int line_number, const char *n);
+void pop(stack_t **h, unsigned int line_number);
+void pint(stack_t **h, unsigned int line_number);
+void pall(stack_t **h, unsigned int line_number);
+void swap(stack_t **h, unsigned int line_number);
+void nop(stack_t **h, unsigned int line_number);
+void pchar(stack_t **h, unsigned int line_number);
+void pstr(stack_t **h, unsigned int line_number);
+void rotl(stack_t **h, unsigned int line_number);
+void rotr(stack_t **h, unsigned int line_number);
 
-/*dlinkedlist.c*/
-int add_end_node(stack_t **head, int n);
-void del_end_node(stack_t **head);
-void free_dlist(stack_t **head);
+/* calculator prototypes */
+void _add(stack_t **h, unsigned int line_number);
+void _sub(stack_t **h, unsigned int line_number);
+void _mul(stack_t **h, unsigned int line_number);
+void _div(stack_t **h, unsigned int line_number);
+void _mod(stack_t **h, unsigned int line_number);
 
-/*print.c*/
-void pall(stack_t **head, unsigned int line_number);
-void pint(stack_t **head, unsigned int line_number);
-void swap(stack_t **head, unsigned int line_number);
-void nop(stack_t **head, unsigned int line_number);
-
-/*pushpop.c*/
-void push(stack_t **head, unsigned int line_number);
-void pop(stack_t **head, unsigned int line_number);
-
-/* arithmetics.c */
-void add(stack_t **stack, unsigned int line_number);
-void sub(stack_t **stack, unsigned int line_number);
-void _div(stack_t **stack, unsigned int line_number);
-void _mul(stack_t **stack, unsigned int line_number);
-void _mod(stack_t **stack, unsigned int line_number);
-
-/*other_ops.c*/
-void _pchar(stack_t **head, unsigned int line_number);
-void _pstr(stack_t **head, unsigned int line_number);
-void _rotl(stack_t **head, unsigned int line_number);
-void _rotr(stack_t **head, unsigned int line_number);
-
-/* tokenizer */
-void tokenizer(char *input, stack_t **stack, unsigned int line_number);
-
-/* frees pointers to pointers */
-void freer(char **buf);
-
-/* execute */
-void execute_ops(stack_t **stack, unsigned int line_number, char *token);
-
-/* frees entire stack */
-void free_stack(stack_t **stack, unsigned int line_number);
-
-/* check for digit */
-int check_digit(char *token);
+/* doubly linked list related prototypes */
+int add_end_node(stack_t **h, int n);
+void delete_end_node(stack_t **h);
+void free_dlist(stack_t **h);
 
 #endif
